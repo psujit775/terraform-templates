@@ -13,8 +13,7 @@ List of Resoureces will be created with this template.
 8. Default security group for VPC
 
 ---
-**NOTE**
-update vars.tf file to change env name and cidr range.```
+*Note*: update vars.tf file to change env name and CIDR range.
 ---
 
 ## Prerequisites

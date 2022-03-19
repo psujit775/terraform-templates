@@ -88,7 +88,7 @@ resource "aws_eip" "nat_eip" {
   depends_on = [aws_internet_gateway.igw]
 
 
-   tags = {
+  tags = {
     Name        = "${var.environment}-nat_eip"
     Environment = "${var.environment}"
   }
@@ -158,7 +158,7 @@ resource "aws_security_group" "default" {
   }
 
   tags = {
-    Name = "${var.environment}-default-sg"
+    Name        = "${var.environment}-default-sg"
     Environment = "${var.environment}"
   }
 }

@@ -25,29 +25,55 @@ resource "aws_vpc" "vpc" {
   }
 }
 
-#Creating Public subnet
-resource "aws_subnet" "public_subnet" {
+#Creating Public subnet1
+resource "aws_subnet" "public_subnet1" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.public_subnet_cidr
-  availability_zone       = var.availability_zones
+  cidr_block              = var.public_subnet_cidr1
+  availability_zone       = var.availability_zone1
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.environment}-public-subnet"
+    Name        = "${var.environment}-public-subnet-1"
     Environment = "${var.environment}"
   }
 }
 
 
-#Creating Private subnet
-resource "aws_subnet" "private_subnet" {
+#Creating Public subnet2
+resource "aws_subnet" "public_subnet2" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.private_subnet_cidr
-  availability_zone       = var.availability_zones
+  cidr_block              = var.public_subnet_cidr2
+  availability_zone       = var.availability_zone2
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name        = "${var.environment}-public-subnet-2"
+    Environment = "${var.environment}"
+  }
+}
+
+#Creating Private subnet 1
+resource "aws_subnet" "private_subnet1" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.private_subnet_cidr1
+  availability_zone       = var.availability_zone1
   map_public_ip_on_launch = false
 
   tags = {
-    Name        = "${var.environment}-private-subnet"
+    Name        = "${var.environment}-private-subnet-1"
+    Environment = "${var.environment}"
+  }
+}
+
+#Creating Private subnet 2
+resource "aws_subnet" "private_subnet2" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.private_subnet_cidr2
+  availability_zone       = var.availability_zone2
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name        = "${var.environment}-private-subnet-2"
     Environment = "${var.environment}"
   }
 }
@@ -98,7 +124,7 @@ resource "aws_eip" "nat_eip" {
 #Creating NAT Gateway
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat_eip.id
-  subnet_id     = aws_subnet.public_subnet.id
+  subnet_id     = aws_subnet.public_subnet1.id
 
   tags = {
     Name        = "${var.environment}-nat_gateway"
@@ -122,15 +148,27 @@ resource "aws_route" "private_nat_gateway" {
 }
 
 
-#Associate route table with public subnet
-resource "aws_route_table_association" "public" {
-  subnet_id      = aws_subnet.public_subnet.id
+#Associate route table with public subnet1
+resource "aws_route_table_association" "public1" {
+  subnet_id      = aws_subnet.public_subnet1.id
   route_table_id = aws_route_table.public.id
 }
 
-#Associate route table with private subnet
-resource "aws_route_table_association" "private" {
-  subnet_id      = aws_subnet.private_subnet.id
+#Associate route table with public subnet2
+resource "aws_route_table_association" "public2" {
+  subnet_id      = aws_subnet.public_subnet2.id
+  route_table_id = aws_route_table.public.id
+}
+
+#Associate route table with private subnet1
+resource "aws_route_table_association" "private1" {
+  subnet_id      = aws_subnet.private_subnet1.id
+  route_table_id = aws_route_table.private.id
+}
+
+#Associate route table with private subnet2
+resource "aws_route_table_association" "private2" {
+  subnet_id      = aws_subnet.private_subnet2.id
   route_table_id = aws_route_table.private.id
 }
 

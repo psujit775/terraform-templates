@@ -12,6 +12,11 @@ List of Resoureces will be created with this template.
 7. Associate route tables
 8. Default security group for VPC
 
+---
+**NOTE**
+update vars.tf file to change env name and cidr range.```
+---
+
 ## Prerequisites
 - AWS ACCOUNT
 - AWS Access keys

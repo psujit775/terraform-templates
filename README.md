@@ -1,2 +1,2 @@
-# terrafrom-templates
-This Repositry contains list of terrafrom templates.
+# terraform-templates
+This Repositry contains list of terraform templates.
